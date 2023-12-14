@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import MenuItem from './MenuItem'
 import Receipt from './Receipt'
 
@@ -42,6 +42,18 @@ const menuItems = [
 ]
 
 function Menu() {
+
+  const [purchasedItems, setPurchasedItems] = useState([]);
+
+  const addItem = (item) => {
+      setPurchasedItems([... purchasedItems, item])
+  }
+
+  const removeItem = (name) =>{
+    console.log(purchasedItems.splice(purchasedItems.indexOf(name), 1))
+    setPurchasedItems(purchasedItems.splice(purchasedItems.indexOf(name), 1));
+  }
+
   return (
     <section>
       <dl>
@@ -51,11 +63,13 @@ function Menu() {
               name={menuItem.name}
               price={menuItem.price}
               picture={menuItem.picture}
+              addItem = {addItem}
+              removeItem = {removeItem}
             />
           )
         })}
       </dl>
-      <Receipt purchasedItems={[]} />
+      <Receipt purchasedItems={purchasedItems} />
     </section>
   )
 }
